@@ -1,0 +1,26 @@
+			<div id="list"> 			<!--My version of the new table controller-->
+            	<div class="add">
+      				<a href="" ng-click="addFood()">+Add New Food</a>
+    			</div>
+    			<div class="entry" ng-repeat="food in foods | orderBy: 'predicate'" ng-class="{out: food.stock === 0}"> <!--"food in foods" references the local foods.json file-->
+    				<label ng-hide="editing" ng-click="editing = true">{{food.name}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.name" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.type}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.type" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.price}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.price" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.unit}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.unit" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.stock}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.stock" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.demand}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.demand" type="text" ng-change="food.edited = true"/>
+    				<label ng-hide="editing" ng-click="editing = true">{{food.need}}</label>
+    				<input ng-blur="editing = false;" ng-show="editing" ng-model="food.need" type="text" ng-change="food.edited = true"/>
+    				
+    				<div class="actions">
+            			<a href="" ng-click="saveFoods(food)">Save</a>
+            			<a href="" ng-click="deleteFood(food, $index)">Delete</a>
+            		</div>
+    			</div>
+            </div>

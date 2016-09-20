@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--[if lte IE 6]><html class="preIE7 preIE8 preIE9"><![endif]-->
+<!--[if IE 7]><html class="preIE8 preIE9"><![endif]-->
+<!--[if IE 8]><html class="preIE9"><![endif]-->
+<!--[if gte IE 9]><!--><html><!--<![endif]-->
+    <head>
+        <meta charset="UTF-8">
+        <title>Sortable Table with Static Headers</title>
+        
+        <!--Framework Imports-->
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js" ></script><!--adding the jquery lib-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script><!--adding the angular lib-->
+
+        <!--Our Custom CSS-->
+        <link rel="stylesheet" type="text/css" href="styles/ara_table.css">
+
+    </head>
+    <body ng-app="SortableTable">
+        <div ng-controller="sortableTableCtrl">
+            <div id="tableHead">
+                <table>
+                    <thead>
+                        <tr ng-controller="sortCtrl"> 					<!--Added sorting controller-->
+                            <th id="name">
+                                Name
+                                <span ng-hide="name.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('name')">
+                                    	<svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!name.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('name')">
+                                    	<svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="type">
+                                Food Group
+                                <span ng-hide="type.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('type')">
+                                        <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!type.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('type')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="price">
+                                Price per unit
+                                <span ng-hide="price.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('price')">
+                                        <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!price.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('price')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="unit">
+                                Unit
+                                <span ng-hide="unit.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('unit')">
+                                        <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!unit.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('unit')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="stock">
+                                In Stock
+                                <span ng-hide="stock.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('stock')">
+                                       <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!stock.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('stock')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="demand">
+                                Demand
+                                <span ng-hide="demand.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('demand')">
+                                        <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!demand.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('demand')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                            <th id="need">
+                                Need
+                                <span ng-hide="need.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('need')">
+                                        <svg-arrow></svg-arrow>			<!--Custom directive for arrow creation-->
+                                    </button>
+                                </span>
+                                <span ng-hide="!need.asc">
+                                    <button class="arrowButton" ng-click="sortByHeader('need')">
+                                        <svg-d-arrow></svg-d-arrow>		<!--Custom directive for D arrow creation-->
+                                    </button>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tableBody">
+                <table>
+                    <tbody>
+                        <tr ng-repeat="food in foodArray | orderBy:predicate" ng-class="{out: food.stock === 0}"> 
+                            <td>{{food.name}}</td>
+                            <td ng-controller="groupCtrl"> <!--Added group controller-->
+                                <select ng-model="food.type">
+                                    <option ng-repeat="foodGroup in foodGroups">{{foodGroup}}</option>
+                                </select>
+                            </td>
+                            <td>{{food.price}}</td>
+                            <td ng-controller="unitCtrl"> <!--Added unit controller-->
+                            	<select ng-model="food.unit">
+                                    <option ng-repeat="foodUnit in foodUnits">{{foodUnit}}</option> <!--I turned this column into a dropdown because there are many values under "Unit" that repeat (avoid redundant code)-->
+                                </select>
+                            </td>
+                            <td >{{food.stock}}</td>
+                            <td >{{food.demand}}</td> 	<!--added the demand and need columns to be displayed-->
+                            <td >{{food.need}}</td>		<!--did so because I felt it was important to display the entire record from the database, otherwise-why create/insert those values?-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+        <h3>My Version of the Optimized Table</h3>
+            <foods></foods>								<!--My custom directive to handle the table creation-->
+		</div>
+		
+		<script src="scripts/controllers/sortable.table.component.js" type="text/javascript"></script>
+        <script src="scripts/controllers/main.js" type="text/javascript"></script>
+        <script src="scripts/services/data.js" type="text/javascript"></script>
+        <script src="scripts/directives/foods.js" type="text/javascript"></script>
+        <script src="scripts/directives/svgArrow.js"></script>
+        <script src="scripts/directives/svgDArrow.js"></script> 
+    </body>
+</html>
